@@ -1,0 +1,16 @@
+pluginManagement {
+    includeBuild("../../../node_modules/.bun/@react-native+gradle-plugin@0.84.1/node_modules/@react-native/gradle-plugin")
+}
+
+plugins {
+    id("com.facebook.react.settings")
+}
+
+extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
+    ex.autolinkLibrariesFromCommand()
+}
+
+rootProject.name = "rn_template"
+include(":app")
+
+includeBuild("../../../node_modules/.bun/@react-native+gradle-plugin@0.84.1/node_modules/@react-native/gradle-plugin")

@@ -1,0 +1,23 @@
+{
+	"$schema": "https://turborepo.dev/schema.json",
+	"ui": "tui",
+	"tasks": {
+		"build": {
+			"dependsOn": ["^build"],
+			"outputs": [
+				"apps/server/dist/**",
+				"apps/native/android/app/build/**",
+				"apps/native/ios/build/**",
+				"convex/dist/**"
+			]
+		},
+		"dev": {
+			"cache": false,
+			"persistent": true
+		},
+		"lint": {},
+		"clean": {
+			"cache": false
+		}
+	}
+}

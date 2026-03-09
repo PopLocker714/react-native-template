@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  libsql:
+    image: ghcr.io/tursodatabase/libsql-server:latest
+    container_name: libsql
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    ports:
+      - "7017:7017"   # HTTP
+      - "9019:9019"   # GRPC (для внутренних реплик/управления)
+      - "9090:9090"   # админ-API
+
+    volumes:
+      - ./data:/var/lib/sqld
+      - ./keys/public.pem:/keys/public.pem:ro
+
+    environment:
+      - SQLD_NODE=primary
+      - SQLD_HTTP_LISTEN_ADDR=0.0.0.0:7017
+      - SQLD_GRPC_LISTEN_ADDR=0.0.0.0:9019
+      - SQLD_ADMIN_LISTEN_ADDR=0.0.0.0:9090
+      - SQLD_AUTH_JWT_KEY_FILE=/keys/public.pem
+
+    command: [ "sqld", "--enable-namespaces" ]
+
