@@ -2,12 +2,25 @@
  * Inline selected process.env variables into the RN bundle at build time.
  * This avoids relying on runtime `process.env` in Hermes/JSC.
  */
+const DEFAULT_INCLUDED_KEYS = ["CONVEX_URL"];
+
+function getIncludedKeys(opts) {
+	const configured =
+		Array.isArray(opts?.keys) ?
+			opts.keys
+		: Array.isArray(opts?.include) ?
+			opts.include
+		: DEFAULT_INCLUDED_KEYS;
+
+	return new Set(configured);
+}
+
 module.exports = function inlineEnvPlugin({ types: t }) {
 	return {
 		name: "inline-selected-env",
 		visitor: {
 			MemberExpression(path, state) {
-				const include = new Set(Array.isArray(state.opts?.include) ? state.opts.include : []);
+				const include = getIncludedKeys(state.opts);
 				if (include.size === 0) {
 					return;
 				}

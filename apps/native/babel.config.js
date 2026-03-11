@@ -14,8 +14,19 @@ dotenv.config({
 module.exports = {
 	presets: ["module:@react-native/babel-preset"],
 	plugins: [
-		[path.resolve(__dirname, "./scripts/inline-env-plugin.js"), { include: ["CONVEX_URL"] }],
+		[
+			"module-resolver",
+			{
+				alias: {
+					crypto: "react-native-quick-crypto",
+					stream: "readable-stream",
+					buffer: "react-native-quick-crypto",
+				},
+			},
+		],
+		path.resolve(__dirname, "./scripts/inline-env-plugin.js"),
 		"hot-updater/babel-plugin",
 		["inline-import", { extensions: [".sql"] }],
+		"react-native-worklets/plugin",
 	],
 };

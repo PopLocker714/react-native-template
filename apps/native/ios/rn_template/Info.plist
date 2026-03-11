@@ -32,6 +32,16 @@
 			<false/>
 			<key>NSAllowsLocalNetworking</key>
 			<true/>
+			<key>NSExceptionDomains</key>
+			<dict>
+				<key>convex-tuwunel-e6a70a-203-31-40-13.traefik.me</key>
+				<dict>
+					<key>NSExceptionAllowsInsecureHTTPLoads</key>
+					<true/>
+					<key>NSIncludesSubdomains</key>
+					<true/>
+				</dict>
+			</dict>
 		</dict>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string/>

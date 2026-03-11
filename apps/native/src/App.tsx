@@ -1,4 +1,5 @@
 import { HotUpdater } from "@hot-updater/react-native";
+import { Button } from "@react-navigation/elements";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ConvexProvider, ConvexReactClient, useMutation, useQuery } from "convex/react";
@@ -6,7 +7,10 @@ import type { FunctionReference } from "convex/server";
 import { useState } from "react";
 import { FlatList, Pressable, StatusBar, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { api as generatedApi } from "../../convex/_generated/api";
+import { api as generatedApi } from "../../../convex/_generated/api";
+import type { RootStackParamList } from "./navigation/types";
+import ChatScreen from "./screens/chat";
+import ChatListScreen from "./screens/chatList";
 
 declare const process: { env: Record<string, string | undefined> };
 
@@ -99,30 +103,24 @@ function TodoList() {
 	);
 }
 
-function DetailsScreen() {
-	return (
-		<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-			<Text>Details Screen</Text>
-		</View>
-	);
-}
-
 function HomeScreen() {
 	return (
 		<View style={{ flex: 1 }}>
 			<Text>Home Screen</Text>
+			<Button screen={"ChatList"}>gotoChatlist</Button>
 			<TodoList />
 		</View>
 	);
 }
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootStack() {
 	return (
 		<Stack.Navigator initialRouteName="Home">
 			<Stack.Screen name="Home" component={HomeScreen} />
-			<Stack.Screen name="Details" component={DetailsScreen} />
+			<Stack.Screen name="ChatList" component={ChatListScreen} />
+			<Stack.Screen name="Chat" component={ChatScreen} />
 		</Stack.Navigator>
 	);
 }
