@@ -11,7 +11,9 @@
 		"pod:i": "bunx pod-install ios",
 		"pods:nuke": "cd ios && rm -rf Pods && rm -rf Podfile.lock && bundle exec pod install",
 		"version:sync": "bun scripts/sync-version.mjs",
-		"prerelease:ios": "bunx react-native run-ios --mode Release"
+		"prerelease:ios": "bunx react-native run-ios --mode Release",
+		"rename": "bun scripts/rename-app.mjs",
+		"rename:new": "bun run rename -- --name 'MyApp' --package 'com.mycompany.myapp'"
 	},
 	"dependencies": {
 		"@hot-updater/bare": "0.27.0",
