@@ -9,7 +9,7 @@ import { FlatList, Pressable, StatusBar, StyleSheet, Text, TextInput, View } fro
 import { SafeAreaView } from "react-native-safe-area-context";
 import { api as generatedApi } from "../../../convex/_generated/api";
 import type { RootStackParamList } from "./navigation/types";
-import ChatScreen from "./screens/chat";
+import ChatScreen from "./screens/chat/chat";
 import ChatListScreen from "./screens/chatList";
 
 declare const process: { env: Record<string, string | undefined> };

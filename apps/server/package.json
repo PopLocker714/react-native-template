@@ -7,9 +7,7 @@
 		"dev": "bun run src/index.ts --whatch --hot"
 	},
 	"devDependencies": {
-		"@hot-updater/plugin-core": "^0.25.7",
 		"@hot-updater/server": "^0.25.7",
-		"@hot-updater/standalone": "^0.25.7",
 		"@types/better-sqlite3": "^7.6.13",
 		"@types/bun": "latest",
 		"better-sqlite3": "^12.6.2",

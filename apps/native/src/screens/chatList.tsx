@@ -1,27 +1,39 @@
 import { useStore } from "@nanostores/react";
 import { Button } from "@react-navigation/elements";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FlatList, Pressable, Text, View } from "react-native";
 import { matrixInit } from "../libs/matrix/matrix";
 import { createRoom } from "../libs/matrix/room.methods";
 import type { RootStackParamList } from "../navigation/types";
+import { $Client } from "../stores/matrixChat/client";
 import { $rooms } from "../stores/matrixChat/rooms";
 
 type Props = NativeStackScreenProps<RootStackParamList, "ChatList">;
 
+const getUserProfile = async () => {
+	const client = $Client.get();
+	if (client === null) return;
+	const userId = client.getUserId();
+	if (userId === null) return;
+	const profile = await client.getProfileInfo(userId);
+	return profile;
+};
+
 export default function ChatListScreen({ navigation }: Props) {
 	const rooms = useStore($rooms);
+	const [name, setName] = useState<string | null>(null);
 
 	useEffect(() => {
 		matrixInit().catch((error) => {
 			console.log("matrixInit failed", error);
 		});
+		getUserProfile().then((data) => setName(data?.displayname || null));
 	}, []);
 
 	return (
 		<View style={{ flex: 1 }}>
-			<Text>Chat LIST</Text>
+			<Text>Chat LIST {name}</Text>
 			<Button
 				onPress={() => {
 					createRoom("direct", { inviteUserIds: ["@admin:convex-tuwunel-e6a70a-203-31-40-13.traefik.me"] });

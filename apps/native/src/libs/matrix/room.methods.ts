@@ -1,6 +1,8 @@
-import { type ICreateRoomOpts, Preset } from "matrix-js-sdk";
+import { type ICreateRoomOpts, Preset, type Room, type RoomState } from "matrix-js-sdk";
 import { $Client } from "../../stores/matrixChat/client";
+import type { $RoomItemType } from "../../stores/matrixChat/rooms";
 import type { TRoomType } from "../../types/room";
+import getTimleneEvents from "../../utils/getTimleneEvents";
 
 export const createRoom = async (roomType: TRoomType, optons: { inviteUserIds: string[]; title?: string }) => {
 	const { inviteUserIds: invite } = optons;
@@ -25,4 +27,19 @@ export const createRoom = async (roomType: TRoomType, optons: { inviteUserIds: s
 	});
 
 	return newRoom;
+};
+
+export const parseMatrixRoom = (room: Room, userId: string, roomState?: RoomState) => {
+	const timline = roomState ? roomState : getTimleneEvents(room);
+	const event = timline?.getStateEvents("m.room.create", "");
+	const membership = room.getMyMembership() as "join" | "leave" | "invite" | "knock";
+	const isDirect = event?.getContent()?.is_direct as undefined | boolean;
+	const title = room.getDefaultRoomName(userId);
+
+	return {
+		id: room.roomId,
+		title,
+		type: isDirect ? "direct" : "group",
+		membership,
+	} as $RoomItemType;
 };

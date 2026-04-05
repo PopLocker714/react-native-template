@@ -30,18 +30,28 @@ const iphoneUser = {
 } as ICreateClientOpts;
 
 export const matrixInit = async () => {
+	if ($Client.get()) return;
+
 	const client = sdk.createClient(Platform.OS === "android" ? adroidUser : iphoneUser);
 	$Client.set(client);
+	const userId = client.getUserId();
+	if (!userId) return;
 
-	client.on(ClientEvent.Sync, onSync);
+	client.on(ClientEvent.Sync, (syncState) => {
+		onSync(syncState, client, userId);
+	});
 
 	console.log("START_INIT");
-	client.on(RoomEvent.Timeline, onTimeLine);
-	client.on(ClientEvent.Room, onRoom);
+	client.on(RoomEvent.Timeline, (event, room) => {
+		onTimeLine(event, room, userId, client);
+	});
 	client.on(ClientEvent.SyncUnexpectedError, (error) => {
 		console.log("sync error", error);
 	});
 	await client.startClient({ initialSyncLimit: 10 }).catch((e) => console.log(e));
+	client.on(ClientEvent.Room, (room) => {
+		onRoom(room, client, userId);
+	});
 	console.log("START_INIT_DONE");
 
 	// const res = await client.loginRequest({
