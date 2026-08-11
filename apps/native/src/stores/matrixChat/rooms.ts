@@ -1,5 +1,5 @@
-import { atom } from "@illuxiza/nanostores-immer";
 import type { StoreValue } from "nanostores";
+import { atom } from "../immerAtom";
 import type { TRoomMembership, TRoomType } from "../../types/room";
 
 interface IRoom {

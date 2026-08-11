@@ -148,7 +148,7 @@ function App() {
 
 export default HotUpdater.wrap({
 	baseURL: `http://localhost:3000/hot-updater`,
-	updateMode: "manual",
+	updateStrategy: "appVersion",
 })(App);
 
 const styles = StyleSheet.create({

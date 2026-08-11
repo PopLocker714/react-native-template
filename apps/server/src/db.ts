@@ -1,16 +1,12 @@
 import { Database } from "bun:sqlite";
-import { drizzle } from "drizzle-orm/bun-sqlite";
-import { migrate } from "drizzle-orm/bun-sqlite/migrator";
-import * as schema from "./lib/hot-updater/hot-updater.schema";
+import { Kysely } from "kysely";
+import { BunSqliteDialect } from "kysely-bun-sqlite";
 
-const client = new Database("db.sqlite");
+const database = new Database("db.sqlite");
+database.run("PRAGMA journal_mode = WAL;");
 
-client.run(`PRAGMA foreign_keys = ON;`);
-client.run("PRAGMA journal_mode = WAL;");
-
-export const db = drizzle({ client, schema });
-
-migrate(db, {
-	migrationsFolder: "./drizzle",
-	migrationsSchema: "./src/lib//hot-upater/*schema.ts",
+// Schema and migrations are managed by hot-updater (fumadb's kysely adapter,
+// which supports a programmatic migration engine) — see hotUpdater.ts.
+export const db = new Kysely({
+	dialect: new BunSqliteDialect({ database }),
 });

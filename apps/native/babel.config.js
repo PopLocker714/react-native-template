@@ -25,7 +25,8 @@ module.exports = {
 			},
 		],
 		path.resolve(__dirname, "./scripts/inline-env-plugin.js"),
-		"hot-updater/babel-plugin",
+		// hot-updater 0.32 dropped its Babel plugin — the bundle id/channel now
+		// come from the native module, so no Babel transform is required.
 		["inline-import", { extensions: [".sql"] }],
 		"react-native-worklets/plugin",
 	],

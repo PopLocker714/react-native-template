@@ -1,5 +1,5 @@
-import { atom } from "@illuxiza/nanostores-immer";
 import type { StoreValue } from "nanostores";
+import { atom } from "../immerAtom";
 
 export const $Members = atom(new Map<string, { username: string; display_name: string; avatar?: string | null }>());
 export type $MembersType = StoreValue<typeof $Members>;
